@@ -1,24 +1,61 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import Main from "./components/Main";
+import {
+  createOwner,
+  getPets,
+  singleCustomer,
+  subscription,
+} from "./Redux/Action/Action";
+import { useDispatch, useSelector } from "react-redux";
+import { gql, useQuery } from "@apollo/client";
 
 function App() {
+  const dispatch = useDispatch();
+  const [id, setId] = useState<any>();
+  const [name, setName] = useState<any>();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <label htmlFor="">Id</label>
+      <input
+        onChange={(e) => {
+          setId(Number(e.target.value));
+        }}
+      />
+      <label htmlFor="">Pet</label>
+      <input
+        onChange={(e) => {
+          setName(e.target.value);
+        }}
+      />
+      <button
+        onClick={() => {
+          dispatch(getPets());
+        }}
+      >
+        call
+      </button>
+
+      <button
+        onClick={() => {
+          dispatch(singleCustomer(id));
+        }}
+      >
+        Id
+      </button>
+      <button
+        onClick={() => {
+          dispatch(createOwner(name));
+        }}
+      >
+        CreatePet
+      </button>
+      <button onClick={()=>{
+        
+        dispatch(subscription())
+      }}>subscription</button>
+  <Main />
     </div>
   );
 }
